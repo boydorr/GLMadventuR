@@ -31,17 +31,21 @@ of the population you are collecting from. Are your data numbers or categories? 
 population size they are likely to be numbers. If so, are they whole numbers (discrete) or can they
 be decimals (continuous)? Can the numbers go below zero?
 
-Here are four distributions and their qualities, which do you think will be the best fit for your
+Here are two distributions and their qualities, which do you think will be the best fit for your
 data?
+
+Poisson - the Poisson is a
 "
 
-poisson_for_mass <- "You have selected the Poisson distribution. The Poisson is a positive, discrete
-distribution and thus is best for modelling integer values. Your masses can be both whole and decimal
-numbers, therefore the Poisson may not be the optimum distribution for the data you collected. Would you
+poisson_for_mass <- "Oh no! You tried a Poisson distribution. The Poisson is a positive, discrete
+distribution and thus is best for modelling integer values. The dragons are unimpressed you are assuming
+their masses are integer values and get ready to launch a major attack on Berk. Would you
 like to choose a different distribution?"
 
 normal_for_count <- "You have selected the Normal distribution. The Normal is a continuous
-distribution and thus might not be the best distribution for discete data (like your counts). Would you
-like to choose a different distribution?"
+distribution and thus might not be the best distribution for discete data (like your counts).
+The dragons, furious at your discussion of .43 of a dragon decide to turn each viking into .43 of
+a dragon. You lose your legs and a hand. Would you like to choose a different distribution that
+represents your counted dragons as whole (integer) individuals?"
 
-
+choose_your_complex_model <- ""

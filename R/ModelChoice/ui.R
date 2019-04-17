@@ -5,11 +5,12 @@ fluidPage(
   ## Sidebar with variable selection and model selection method
   sidebarLayout(
     sidebarPanel(
-      checkboxGroupInput("variable_selection",
+      radioButtons("model_selection",
                          label = "Choose your model selection method",
                          choiceNames = c("Null Hypothesis Significance Testing (HHST)",
                                          "Akaike's Information Criterion (AIC)",
-                                         "Elastic Net"))
+                                         "Elastic Net"),
+                         choiceValues = c("NHST","AIC","EN")
       checkboxGroupInput("variable_selection",
                          label = "Choose the most complex model",
                          choiceValues = c("sheep", "hunting",
