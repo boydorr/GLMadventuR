@@ -1,7 +1,7 @@
 library("shiny")
 
 function(input, output) {
-
+  dragons <- read.csv("../DataGeneration/dragons.csv")
   output$modelcommand = renderText({
     if (is.null(input$variable_selection)){
       vars <- 1
