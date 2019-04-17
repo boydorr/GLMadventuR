@@ -48,4 +48,11 @@ The dragons, furious at your discussion of .43 of a dragon decide to turn each v
 a dragon. You lose your legs and a hand. Would you like to choose a different distribution that
 represents your counted dragons as whole (integer) individuals?"
 
-choose_your_complex_model <- ""
+choose_your_complex_model <- "Now that you have decided the distribution your response data come
+from we can start to think about the relationship between the response and explanatory variables.
+There are lots of options when we think about constructing models and choosing the 'best' one. We
+need to balance model fit (how well it explains our data) and the model's predictive power (how
+well it can be used to predict or interpolate beyond our data. If we produce an overfit model that
+explains our data perfectly then we might struggle to predict what the dragon population will do
+if we change one of our sites from low dragon hunting to high dragon hunting, or if we try to apply
+our model to a new territory."
