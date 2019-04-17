@@ -34,7 +34,10 @@ be decimals (continuous)? Can the numbers go below zero?
 Here are two distributions and their qualities, which do you think will be the best fit for your
 data?
 
-Poisson - the Poisson is a
+Poisson - the Poisson is a discrete, positive distribution with the same mean and variance. Discrete
+means it describes whole numbers, and positive means it is bounded by zero.
+Gaussian - the Gaussian, or normal, distribution has seperate arguments for the mean and variance and
+describes integer and non-integers numbers. It can go above and below zero.
 "
 
 poisson_for_mass <- "Oh no! You tried a Poisson distribution. The Poisson is a positive, discrete
@@ -42,7 +45,7 @@ distribution and thus is best for modelling integer values. The dragons are unim
 their masses are integer values and get ready to launch a major attack on Berk. Would you
 like to choose a different distribution?"
 
-normal_for_count <- "You have selected the Normal distribution. The Normal is a continuous
+normal_for_count <- "You have selected the Gaussian distribution. The Gaussian is a continuous
 distribution and thus might not be the best distribution for discete data (like your counts).
 The dragons, furious at your discussion of .43 of a dragon decide to turn each viking into .43 of
 a dragon. You lose your legs and a hand. Would you like to choose a different distribution that
@@ -55,4 +58,32 @@ need to balance model fit (how well it explains our data) and the model's predic
 well it can be used to predict or interpolate beyond our data. If we produce an overfit model that
 explains our data perfectly then we might struggle to predict what the dragon population will do
 if we change one of our sites from low dragon hunting to high dragon hunting, or if we try to apply
-our model to a new territory."
+our model to a new territory. One way to balance these competing demands is to try to balance the
+goodness of fit of our model (i.e. how well it describes the data) with the model's complexity (as
+a model with more terms with almost always have a better fit). expand expand explain explain"
+
+nhst_chosen <- "You have chosen to compare the importance of explanatory variables using p-values.
+This is understandable as you have probably always been told that p-values and significance are
+the be all and end all of statistics in ecology. However, there has been increasing dissatisfaction
+with this approach among modellers. First and foremost, even when used correctly selecting variables
+for a model based on p-values tends to produce poorly performing models, not least because the test
+being performed is generally 'is this coefficient significantly different from zero' rather than
+'is this coefficient important or having a large effect' as it is often interpreted. Secondly, it is
+actually really hard to do a statistically fair comparison based on p-values. Often, the comparison
+is done after model selection has already been carried out and thus the hypothesis being tested is
+already biased. Papers papers. Expand expand. Link link."
+
+aic_chosen <- "You have chosen to carry out model selection using the Akaike Information Criterion
+(AIC). AIC, and many other information crtieria, tend to score a model positively based on its fit
+and negatively based on the number of parameters in the model (i.e. it's complexity). The difference
+between most information criteria is the relative weight of these parts. Information criteria allow
+you to compare the fit of different models fit to the same data. It is therefore possible to explore
+the different potential models and to choose the best overall model. This final model contains only
+important covariates whose effects can be compared using coefficients (but not p-values!!!)"
+
+end_of_adventure <- "Congratulations! You've fit your GLM and your resultant understanding of dragon
+dynamics will serve your people well going forward. On the graphs below we have drawn the True values
+that define the relationships between the dragon population and the covariates you collected data on.
+How will did your model's estimate and 95% confidence interval stack up against the truth?"
+
+
