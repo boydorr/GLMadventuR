@@ -6,7 +6,9 @@ function(input, output) {
     if (is.null(input$variable_selection)){
       vars <- 1
     }else{
-      vars <- paste(input$variable_selection, collapse = " + ")}
-    paste0("glm(dragons ~ ", vars, ", family = 'gaussian')")
+      vars <- paste(input$variable_selection, collapse = " + ")
+    }
+    response <- colnames(dragons)[1]
+    paste0("glm(", response, " ~ ", vars, ", family = 'gaussian', data = dragons)")
   })
 }
