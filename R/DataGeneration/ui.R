@@ -2,12 +2,16 @@ library("shiny")
 
 fluidPage(
   titlePanel("Data collection"), #title
-  ## Sidebar with a slider input for no. of points
+  
   sidebarLayout(
     sidebarPanel(
+      
+      # asks user which response variable they want to use
       selectInput(inputId = "response_variable",
-                    label = "Do you want to look at mass or count of dragons?",
-                    choices = c("mass", "count")),
+                  label = "Do you want to look at mass or count of dragons?",
+                  choices = c("mass", "count")),
+      
+      # asks user how many areas (?) they want to sample 
       sliderInput(inputId = "sample_size",
                   label = "How many areas do you want to sample?",
                   min = 10,
@@ -15,7 +19,13 @@ fluidPage(
                   value = 55,
                   step = 1)
     ),
-    ## Show a plot of the generated distribution
-    mainPanel(textOutput("response"))
+    
+    # shows generated data frame
+    mainPanel(fluidRow(
+      column(5,
+             dataTableOutput('table')
+      )
+    )
+    )
   )
 )
