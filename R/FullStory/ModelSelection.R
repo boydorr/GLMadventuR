@@ -13,7 +13,8 @@ mod_select_tab = tabItem("ModelSelection", sidebarLayout(
                        choiceValues = c("sheep", "hunting",
                                         "unicorn", "vegetation_height"),
                        choiceNames = c("Sheep", "Hunting",
-                                       "Unicorn", "Vegetation Height"))
+                                       "Unicorn", "Vegetation Height")),
+    div(img(src='dragon.png', width = 100), style="text-align: center;")
   ),
   ##output table
   mainPanel(tableOutput("modelcommand"))
