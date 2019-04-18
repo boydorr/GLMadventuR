@@ -1,9 +1,21 @@
 mod_select_tab = tabItem("ModelSelection", sidebarLayout(
   sidebarPanel(
-    radioButtons("distroRadio", "Here are two distributions and their qualities, which do you think will be the best fit for your data? ",
-                 choices = list("Normal" = 1, "Poisson" = 2),
-                 selected = 1)
+    ##choose model selection method
+    radioButtons("model_selection",
+                 label = "Choose your model selection method",
+                 choiceNames = c("Null Hypothesis Significance Testing (NHST)",
+                                 "Akaike's Information Criterion (AIC)",
+                                 "Elastic Net"),
+                 choiceValues = c("NHST","AIC","EN")),
+    ##choose variables
+    checkboxGroupInput("variable_selection",
+                       label = "Choose the most complex model",
+                       choiceValues = c("sheep", "hunting",
+                                        "unicorn", "vegetation_height"),
+                       choiceNames = c("Sheep", "Hunting",
+                                       "Unicorn", "Vegetation Height"))
   ),
-  mainPanel(htmlOutput("model_family_selection"),
-            plotOutput(outputId = "plot2"), textOutput("distribution_choice"))
+  ##output table
+  mainPanel(tableOutput("modelcommand"))
 ))
+

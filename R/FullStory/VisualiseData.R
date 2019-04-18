@@ -3,7 +3,7 @@ vis_data_tab = tabItem(tabName="VisualiseData", #title
         ## dragon mass/count
         sidebarLayout(
           sidebarPanel(
-            selectInput("variable_selection",
+            selectInput("plot_selection",
                         label = "Choose your variable here:",
                         choices = c("Sheep" = "sheep", "Hunting" = "hunting",
                                     "Unicorn" = "unicorn",

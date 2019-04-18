@@ -1,11 +1,16 @@
 library("shiny")
-library(ggplot2)
+library("ggplot2")
+library("shiny")
+library("xtable")
+library("glmnet")
+library("MuMIn")
 
 source("TextAdventure.R")
 function(input, output, session) {
 
-  tab_id <- c("Intro", "ExperimentalDesign", "WeightVsCount", "VisualiseData", "ModelSelection")
+  tab_id <- c("Intro", "ExperimentalDesign", "WeightVsCount", "VisualiseData", "ModelChoice", "ModelSelection")
 
+  ## Next / previous
   observe({
     lapply(c("Next", "Previous"),
            toggle,
@@ -88,14 +93,14 @@ function(input, output, session) {
     output$table <- renderDataTable(dragons())
   # Visualise data
     output$plot1 = renderPlot({
-      if (input$variable_selection == "hunting"){
+      if (input$plot_selection == "hunting"){
         ggplot(data = dragons()) +
-          geom_boxplot(aes_string(y = input$response_variable, x = input$variable_selection)) +
-          ylab(input$response_variable) + xlab(input$variable_selection)
+          geom_boxplot(aes_string(y = input$response_variable, x = input$plot_selection)) +
+          ylab(input$response_variable) + xlab(input$plot_selection)
       }else{
         ggplot(data = dragons()) +
-          geom_point(aes_string(y = input$response_variable, x = input$variable_selection)) +
-          ylab(paste(input$response_variable)) + xlab(input$variable_selection)}
+          geom_point(aes_string(y = input$response_variable, x = input$plot_selection)) +
+          ylab(paste(input$response_variable)) + xlab(input$plot_selection)}
     })
 
     ## Model Selection process
@@ -106,27 +111,33 @@ function(input, output, session) {
       myNormal <- rnorm(n,mmean,mstd)
       myPoisson <- rpois(n,mmean)
       myDistro <- myPoisson
-      if (distroType == 1){
+      if (distroType == "gaussian"){
         myDistro <- myNormal
       }
       return(myDistro)
     }
     plot <- reactiveValues(
-      vals = NULL
+      vals = NULL,
+      warn = ""
     )
     observeEvent(input$distroRadio, {
       plot$vals <- input$distroRadio
     })
     output$plot2 <- renderPlot({
-      dist_names <- c("Normal", "Poisson")
       hist(prepDistroSVP(plot$vals),
-           main = paste("Example of",
-                        dist_names[as.numeric(input$distroRadio)],
-                        "distribution"),
+           main = paste("Example of", input$distroRadio, "distribution"),
            xlab= "Data values")
     })
+    output$warning_message <- renderText({
+      if (input$distroRadio == "gaussian" && input$response_variable == "count"){
+        normal_for_count
+      }else if (input$distroRadio == "poisson" && input$response_variable == "mass"){
+        poisson_for_mass
+      }else{
+        paste("")
+      }})
     output$distribution_choice <- renderText({
-      if (plot$vals == 1){
+      if (plot$vals == "gaussian"){
         "Gaussian - the Gaussian, or normal, distribution has seperate arguments for the mean and variance and
 describes integer and non-integers numbers. It can go above and below zero."
       }else{
@@ -135,4 +146,61 @@ means it describes whole numbers, and positive means it is bounded by zero."
              }
     })
 
+    ## Model Selection
+
+    output$modelcommand = renderTable({
+      ##generate list for correct glm formlula from inputted variables
+      if (is.null(input$variable_selection)){
+        vars <- 1
+      } else {
+        vars <- paste(input$variable_selection, collapse = " + ")
+      }
+      dragonsdata = dragons()
+      ##glm command as string
+      formula <- paste0("glm(", input$response_variable, " ~ ", vars,
+                        ", family = '",input$distroRadio,"', data = dragonsdata, na.action=na.fail)")
+      ##run command from string
+      dragonmodel <- eval(parse(text=formula))
+      ##if NHST
+      if (input$model_selection=="NHST") {
+        ##currently no output if no options selected -- what would make sense?
+        if (is.null(input$variable_selection)){
+
+        } else {
+          ##correct test depends on family so generate p-values based on F-test for Gaussian
+          ##and Chi-squared for Poisson
+          if (input$distroRadio=="gaussian") {
+            as.matrix(drop1(dragonmodel,test="F")[c(2:nrow(drop1(dragonmodel,test="F"))),])
+          } else if (input$distroRadio=="poisson") {
+            as.matrix(drop1(dragonmodel,test="Chisq")[c(2:nrow(drop1(dragonmodel,test="Chisq"))),])
+          }
+        }
+        ##if using information criteria - just give dredge output
+      } else if (input$model_selection=="AIC") {
+        dredged <- MuMIn::dredge(eval(parse(text=formula)))
+        dredged
+        ##if elastic net
+      } else if (input$model_selection=="EN") {
+        # if (length(input$variable_selection) >2){
+        # ##generate correct format for glmnet
+        # x <- as.matrix(dragons()[,colnames(dragons())%in%input$variable_selection])
+        # y <- dragons()[,1]
+        # ##cross validate to optimise alpha and lambda
+        # lambdaforseqalong <- exp(seq(from=-10, to=0, by=0.1))
+        # optim <- matrix(NA,nrow=101,ncol=101)
+        # alphasforseqalong <- seq(from=0, to=1, by=0.01)
+        # for (i in 1:101){
+        #   optim[,i] <- cv.glmnet(x,y,nfolds=nrow(x),lambda = lambdaforseqalong,alpha=alphasforseqalong[i])$cvm
+        # }
+        # ##run model at optimal parameter values
+        # dragonmodel <- glmnet(x, y, family=input$distroRadio, lambda=lambdaforseqalong[which(optim == min(optim), arr.ind=TRUE)[1]],
+        #                       alpha=alphasforseqalong[which(optim == min(optim), arr.ind=TRUE)[2]])
+        # ##generate matrix and print
+        # dragonmatrix <- as.matrix(dragonmodel$beta)
+        # row.names(dragonmatrix) <- vars
+        # colnames(dragonmatrix) <- "Coefficients"
+        # dragonmatrix
+        # }
+        }
+    }, include.rownames=T)
 }

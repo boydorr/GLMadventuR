@@ -7,6 +7,7 @@ source("Intro.R")
 source("ExperimentalDesign.R")
 source("WeightVsCount.R")
 source("VisualiseData.R")
+source("ModelChoice.R")
 source("ModelSelection.R")
 dashboardPage(
   dashboardHeader(title = "Dragon story"), #title
@@ -20,7 +21,9 @@ dashboardPage(
                         icon =icon("dragon")),
                 menuItem("Visualise your Data", tabName = "VisualiseData",
                          icon =icon("dragon")),
-                menuItem("Select your model", tabName = "ModelSelection",
+                menuItem("Choose your model", tabName = "ModelChoice",
+                         icon =icon("dragon")),
+                menuItem("Model selection", tabName = "ModelSelection",
                          icon =icon("dragon"))
     )
   ),
@@ -31,6 +34,7 @@ dashboardPage(
                              c('14px', 'fantasy', 'black')))),
     actionButton(inputId ="Previous", label = icon("arrow-left")),
     actionButton(inputId ="Next", label = icon("arrow-right")),
-    tabItems(intro_tab, exp_des_tab, weight_v_count_tab,vis_data_tab, mod_select_tab)
+    tabItems(intro_tab, exp_des_tab, weight_v_count_tab,vis_data_tab,
+             mod_choice_tab, mod_select_tab)
   )
 )
