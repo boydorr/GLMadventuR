@@ -3,5 +3,5 @@ intro_tab =
           sidebarLayout(
             sidebarPanel(div(img(src='dragon.png', width = 100), style="text-align: center;")),
             # shows generated data frame
-            mainPanel(htmlOutput("setting_up_the_problem"))
+            mainPanel(div(htmlOutput("setting_up_the_problem"), style= "font-size: 20px;"))
           ))

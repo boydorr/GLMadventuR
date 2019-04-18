@@ -10,7 +10,9 @@ source("VisualiseData.R")
 source("ModelChoice.R")
 source("ModelSelection.R")
 dashboardPage(
-  dashboardHeader(title = "Dragon story"), #title
+  skin = "purple",
+  dashboardHeader(title = span("How to train your model",
+                                    style = "font-family: fantasy"), titleWidth = 260), #title
   dashboardSidebar(
     useShinyjs(),
     sidebarMenu(id = "tabs",
@@ -29,7 +31,22 @@ dashboardPage(
   ),
 
   dashboardBody(
-    tags$style(".fa-dragon {color:#E87722}", make_css(list('body',
+    tags$head(tags$style(HTML('/* main sidebar */
+        .skin-purple .main-sidebar {
+                              background-color: #2E8B57;
+                              }
+         /* active selected tab in the sidebarmenu */
+        .skin-purple .main-sidebar .sidebar .sidebar-menu .active a{
+                              background-color: #3CB371;
+                              }
+                              .logo {
+                                background-color: #4B0082 !important;
+                              }
+                              .navbar {
+                                background-color: #4B0082 !important;
+                              }
+                              '))),
+    tags$style(make_css(list('body',
                              c('font-size', 'font-family', 'color'),
                              c('14px', 'fantasy', 'black')))),
     actionButton(inputId ="Previous", label = icon("arrow-left")),

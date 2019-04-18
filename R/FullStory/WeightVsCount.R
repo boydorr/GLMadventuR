@@ -17,9 +17,8 @@ weight_v_count_tab = tabItem(tabName = "WeightVsCount",
             div(img(src='dragon.png', width = 100), style="text-align: center;")),
 
           # shows generated data frame
-          mainPanel(fluidRow(
-            column(5,
-                   dataTableOutput('table')
+          mainPanel(htmlOutput("weight_vs_count"), fluidRow(
+            column(5, dataTableOutput('table')
             )
           )
           )
