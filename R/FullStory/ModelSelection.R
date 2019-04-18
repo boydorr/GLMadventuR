@@ -17,6 +17,6 @@ mod_select_tab = tabItem("ModelSelection", sidebarLayout(
     div(img(src='dragon.png', width = 100), style="text-align: center;")
   ),
   ##output table
-  mainPanel(tableOutput("modelcommand"))
+  mainPanel(downloadButton("report", "Generate report"), tableOutput("modelcommand"))
 ))
 
