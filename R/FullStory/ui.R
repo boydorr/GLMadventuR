@@ -47,8 +47,8 @@ dashboardPage(
                               }
                               '))),
     tags$style(make_css(list('body',
-                             c('font-size', 'font-family', 'color'),
-                             c('14px', 'fantasy', 'black')))),
+                             c('font-size', 'font-family', 'color', 'font-weight'),
+                             c('14px', 'fantasy', 'black', 'normal')))),
     actionButton(inputId ="Previous", label = icon("arrow-left")),
     actionButton(inputId ="Next", label = icon("arrow-right")),
     tabItems(intro_tab, exp_des_tab, weight_v_count_tab,vis_data_tab,
