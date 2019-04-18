@@ -11,6 +11,6 @@ vis_data_tab = tabItem(tabName="VisualiseData", #title
             div(img(src='dragon.png', width = 100), style="text-align: center;")
           ),
           ## Show a plot of the generated distribution and story text
-          mainPanel(htmlOutput("visualise_your_data"), plotOutput("plot"))
+          mainPanel(htmlOutput("visualise_your_data"), plotOutput("plot1"))
         )
 )

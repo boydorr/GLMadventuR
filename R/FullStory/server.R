@@ -79,7 +79,10 @@ function(input, output, session) {
     output$visualise_your_data = renderText({
       paste(visualise_your_data)
     })
-    output$plot = renderPlot({
+    output$model_family_selection = renderText({
+      paste(model_family_selection)
+    })
+    output$plot1 = renderPlot({
       if (input$variable_selection == "hunting"){
         ggplot(data = dragons()) +
           geom_boxplot(aes_string(y = input$response_variable, x = input$variable_selection)) +
@@ -88,6 +91,21 @@ function(input, output, session) {
         ggplot(data = dragons()) +
           geom_point(aes_string(y = input$response_variable, x = input$variable_selection)) +
           ylab(paste(input$response_variable)) + xlab(input$variable_selection)}
+    })
+    prepDistroSVP <- function(distroType){
+      n <- 1000
+      mmean <- 10
+      mstd <- 3
+      myNormal <- rnorm(n,mmean,mstd)
+      myPoisson <- rpois(n,mmean)
+      myDistro <- myPoisson
+      if (distroType == 1){
+        myDistro <- myNormal
+      }
+      return(myDistro)
+    }
+    output$plot2 <- renderPlot({
+      hist(prepDistroSVP(input$distroRadio))
     })
 
 }
