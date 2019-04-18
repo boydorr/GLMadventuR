@@ -1,7 +1,6 @@
 library("shiny")
 
 function(input, output) {
-
   output$modelcommand = renderText({
     if (is.null(input$variable_selection)){
       vars <- 1
@@ -10,15 +9,15 @@ function(input, output) {
     }
     response <- colnames(dragons[,1]
     formula <- paste0("glm(", response, " ~ ", vars, 
-                      ", family = 'gaussian', data = dragons)")
+                      ", family = 'gaussian', data = dragons, na.action=na.fail)")
     if (input$model_selection=="NHST") {
       pvalueoutput<-summary(eval(parse(text=formula)))$coefficients[,c(1,4)]
       row.names(pvalueoutput)<-vars
       pvalueoutput
     } elseif (input$model_selection=="AIC") {
-      
+      MuMIn::dredge(eval(parse(text=formula)))
     } else {
-    
+      print("Not yet implemented.")
     }
   })
 }
