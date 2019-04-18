@@ -4,7 +4,7 @@ fifteen-year-old son of the village chieftain, Stoick the Vast, and are consider
 weak to hunt the dragons. Instead you resolve to study them and the effect that your village's
 hunting and livestock management has on dragon numbers."
 
-experimental_design <- "The island Berk is built on can be divided into approximately 10 even sized
+experimental_design <- "The island Berk is built on can be divided into at least 10 even sized
 regions. You will set up a sampling station in each of these regions to monitor dragon population size
 as well as some environmental covariates. You have been told that the main covariates that are likely
 to affect dragon population size are sheep number (count), vegetation height (numeric), hunting
