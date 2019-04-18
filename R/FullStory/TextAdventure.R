@@ -30,14 +30,6 @@ this, these visualisations can often be misleading. Instead, try to think of the
 of the population you are collecting from. Are your data numbers or categories? In the case of a
 population size they are likely to be numbers. If so, are they whole numbers (discrete) or can they
 be decimals (continuous)? Can the numbers go below zero?
-
-Here are two distributions and their qualities, which do you think will be the best fit for your
-data?
-
-Poisson - the Poisson is a discrete, positive distribution with the same mean and variance. Discrete
-means it describes whole numbers, and positive means it is bounded by zero.
-Gaussian - the Gaussian, or normal, distribution has seperate arguments for the mean and variance and
-describes integer and non-integers numbers. It can go above and below zero.
 "
 
 poisson_for_mass <- "Oh no! You tried a Poisson distribution. The Poisson is a positive, discrete

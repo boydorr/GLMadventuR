@@ -4,7 +4,7 @@ library(ggplot2)
 source("TextAdventure.R")
 function(input, output, session) {
 
-  tab_id <- c("Intro", "ExperimentalDesign", "WeightVsCount", "VisualiseData")
+  tab_id <- c("Intro", "ExperimentalDesign", "WeightVsCount", "VisualiseData", "ModelSelection")
 
   observe({
     lapply(c("Next", "Previous"),
@@ -42,6 +42,25 @@ function(input, output, session) {
       updateTabItems(session, "tabs", tab_id[tab_id_position])
     }
   )
+
+  ## Main story text
+  output$setting_up_the_problem = renderText({
+    paste(setting_up_the_problem)
+  })
+  output$experimental_design = renderText({
+    paste(experimental_design)
+  })
+  output$weight_vs_count = renderText({
+    paste(weight_vs_count)
+  })
+  output$visualise_your_data = renderText({
+    paste(visualise_your_data)
+  })
+  output$model_family_selection = renderText({
+    paste(model_family_selection)
+  })
+
+  ## Generate data
   dragons <- reactive({
 
     # generating some random data for the explanatory variables
@@ -67,21 +86,7 @@ function(input, output, session) {
 
   })
     output$table <- renderDataTable(dragons())
-    output$setting_up_the_problem = renderText({
-      paste(setting_up_the_problem)
-    })
-    output$experimental_design = renderText({
-      paste(experimental_design)
-    })
-    output$weight_vs_count = renderText({
-      paste(weight_vs_count)
-    })
-    output$visualise_your_data = renderText({
-      paste(visualise_your_data)
-    })
-    output$model_family_selection = renderText({
-      paste(model_family_selection)
-    })
+  # Visualise data
     output$plot1 = renderPlot({
       if (input$variable_selection == "hunting"){
         ggplot(data = dragons()) +
@@ -92,6 +97,8 @@ function(input, output, session) {
           geom_point(aes_string(y = input$response_variable, x = input$variable_selection)) +
           ylab(paste(input$response_variable)) + xlab(input$variable_selection)}
     })
+
+    ## Model Selection process
     prepDistroSVP <- function(distroType){
       n <- 1000
       mmean <- 10
@@ -104,8 +111,28 @@ function(input, output, session) {
       }
       return(myDistro)
     }
+    plot <- reactiveValues(
+      vals = NULL
+    )
+    observeEvent(input$distroRadio, {
+      plot$vals <- input$distroRadio
+    })
     output$plot2 <- renderPlot({
-      hist(prepDistroSVP(input$distroRadio))
+      dist_names <- c("Normal", "Poisson")
+      hist(prepDistroSVP(plot$vals),
+           main = paste("Example of",
+                        dist_names[as.numeric(input$distroRadio)],
+                        "distribution"),
+           xlab= "Data values")
+    })
+    output$distribution_choice <- renderText({
+      if (plot$vals == 1){
+        "Gaussian - the Gaussian, or normal, distribution has seperate arguments for the mean and variance and
+describes integer and non-integers numbers. It can go above and below zero."
+      }else{
+        "Poisson - the Poisson is a discrete, positive distribution with the same mean and variance. Discrete
+means it describes whole numbers, and positive means it is bounded by zero."
+             }
     })
 
 }
