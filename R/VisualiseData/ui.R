@@ -1,17 +1,20 @@
 library("shiny")
-
 fluidPage(
+  tags$style(make_css(list('body',
+                           c('font-size', 'font-family', 'color'),
+                           c('14px', 'fantasy', 'black')))),
   titlePanel("Visualise Data"), #title
-  ## Sidebar with a slider input for no. of points
+  ## Sidebar with a selection input for different variables to plot against
+  ## dragon mass/count
   sidebarLayout(
     sidebarPanel(
       selectInput("variable_selection",
-                         label = "Explore relationship between dragons and your collected variables:",
+                         label = "Choose your variable here:",
                          choices = c("Sheep" = "sheep", "Hunting" = "hunting",
                                      "Unicorn" = "unicorn",
                                      "Vegetation Height" = "vegetation_height"))
     ),
-    ## Show a plot of the generated distribution
-    mainPanel(plotOutput("plot"))
+    ## Show a plot of the generated distribution and story text
+    mainPanel(htmlOutput("text"), plotOutput("plot"))
   )
 )
