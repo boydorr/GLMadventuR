@@ -2,6 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(shinyjs)
 library(tableHTML)
+library(tuneR)
 
 source("Intro.R")
 source("ExperimentalDesign.R")

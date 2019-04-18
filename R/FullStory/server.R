@@ -4,7 +4,10 @@ library("shiny")
 library("xtable")
 library("glmnet")
 library("MuMIn")
+library("tuneR")
 
+setWavPlayer('/usr/bin/afplay')
+roar = readMP3("roar.mp3")
 source("TextAdventure.R")
 function(input, output, session) {
 
@@ -149,8 +152,10 @@ function(input, output, session) {
     })
     output$warning_message <- renderText({
       if (input$distroRadio == "gaussian" && input$response_variable == "count"){
+        play(roar)
         normal_for_count
       }else if (input$distroRadio == "poisson" && input$response_variable == "mass"){
+        play(roar)
         poisson_for_mass
       }else{
         paste("")
