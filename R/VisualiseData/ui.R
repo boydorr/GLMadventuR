@@ -12,7 +12,8 @@ fluidPage(
                          label = "Choose your variable here:",
                          choices = c("Sheep" = "sheep", "Hunting" = "hunting",
                                      "Unicorn" = "unicorn",
-                                     "Vegetation Height" = "vegetation_height"))
+                                     "Vegetation Height" = "vegetation_height")),
+      div(img(src='dragon.png', width = 100), style="text-align: center;")
     ),
     ## Show a plot of the generated distribution and story text
     mainPanel(htmlOutput("text"), plotOutput("plot"))
