@@ -104,12 +104,9 @@ function(input, output, session) {
     })
 
     ## Model Selection process
-    prepDistroSVP <- function(distroType){
-      n <- 1000
-      mmean <- 10
-      mstd <- 3
+    prepDistroSVP <- function(distroType, n, mmean, mstd, mlambda){
       myNormal <- rnorm(n,mmean,mstd)
-      myPoisson <- rpois(n,mmean)
+      myPoisson <- rpois(n,mlambda)
       myDistro <- myPoisson
       if (distroType == "gaussian"){
         myDistro <- myNormal
@@ -117,14 +114,36 @@ function(input, output, session) {
       return(myDistro)
     }
     plot <- reactiveValues(
-      vals = NULL,
-      warn = ""
+      vals = "gaussian",
+      warn = "",
+      mean = 0,
+      var = 0,
+      lambda = 0,
+      n = 10
     )
-    observeEvent(input$distroRadio, {
-      plot$vals <- input$distroRadio
-    })
+    output$moreControls <- renderUI({
+      if (input$distroRadio == "gaussian"){
+        sliderInput("mean", "Mean", 1, 100, 25)
+      } else {
+        sliderInput("lambda", "Lambda", 1, 100, 25)
+      }})
+    output$moreControls2 <- renderUI({
+      if (input$distroRadio == "gaussian"){
+        sliderInput("var", "Variance", 1, 100, 5)
+      }})
     output$plot2 <- renderPlot({
-      hist(prepDistroSVP(plot$vals),
+      plot$vals <- input$distroRadio
+      if (!is.null(input$mean)){
+        plot$mean <- input$mean
+      }
+      if (!is.null(input$var)){
+        plot$var <- input$var
+      }
+      if (!is.null(input$lambda)){
+        plot$lambda <- input$lambda
+      }
+      plot$n <- input$n
+      hist(prepDistroSVP(plot$vals, plot$n, plot$mean, plot$var, plot$lambda),
            main = paste("Example of", input$distroRadio, "distribution"),
            xlab= "Data values")
     })

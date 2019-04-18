@@ -4,6 +4,9 @@ mod_choice_tab = tabItem("ModelChoice", sidebarLayout(
 data?",
                  choices = list("Normal" = "gaussian", "Poisson" = "poisson"),
                  selected = "gaussian"),
+    sliderInput("n", "Number of samples", 1, 5000, 100),
+    uiOutput("moreControls"),
+    uiOutput("moreControls2"),
     div(htmlOutput("warning_message"), style="color: red;"),
     div(img(src='dragon.png', width = 100), style="text-align: center;")
   ),
